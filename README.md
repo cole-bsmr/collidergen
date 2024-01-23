@@ -15,13 +15,16 @@ The import interface allows you to quickly access importers for commonly used fi
  - This tool performs some basic functions to clean up the imported meshes and ensures they work correctly with the rest of the collision generation tools. It first removes objects from any imported hierarchy and deletes the empty objects. It then resets all scale values which is important when Collider Gen is fitting objects to the imported geometry. It is highly recommended that this tool be used on all imported geometry.
 #### Separate Parts
  - This tool identifies continuous geometry and separates those into separate meshes. This allows the user to have finer control over what collisions are placed where. If your imported geometry is already split into parts it’s not necessary to run this tool.
+![](https://i.imgur.com/m6bmgMc.png)
 
 ## Create Options
 The create options panel contains settings you can adjust to change the way the tools in the “Create” panel behave.
 #### Per Object
  - This option determines whether an operation is applied to the selected objects as a whole or to each object individually. When toggled on the tool will loop through each object and apply a collision to each object in that selection. When toggled off the tool will create one collider that fits the entire selection of objects. This option only applies to the “Box” and “Sphere” tools in the “Create” interface.
+![](https://i.imgur.com/xhE0KGM.png)
 #### Minimal Box
  - This option determines whether a created collider box is aligned to the object’s local rotation or whether it is fit to the object in a way that creates the tightest fitting collision. When toggled off the box collider will use the object’s local rotation to align itself. When toggled on the box collider will be fit to the object in the way that creates the tightest fitting box.
+![](https://i.imgur.com/vTnr4ON.png)
 
  - This tool is mainly used for when an object is box-like and at an angle but its rotational information has been reset so that instead of creating a box that aligns to the geometry it is being aligned to the world. The “Minimal Box” setting will allow the correct alignment of box collisions to these types of geometries.
 
@@ -37,6 +40,7 @@ The create options panel contains settings you can adjust to change the way the 
  - To use this tool select an object and then press the “Generate by Face” button. You can then select a flat surface of the object. This surface will be the “end cap” of your collision shape. After confirming your surface the collision object will be extruded from that surface. The length of this extruded shape is determined automatically but may need to be adjusted after the shape is generated.
 #### Mesh Collider
  - This tool creates a collision mesh as opposed to a simple shape. It creates a convex hull mesh that can then be simplified. Simply select an object and press the button to create the mesh. You will then see two new tools appear under the button.
+![](https://i.imgur.com/IJpDfwR.png)
  - The Simplify and Inflate tools will appear any time a mesh collider is selected and these values can be adjusted at any time as long as the modifiers have not been applied.
 #### - Simplify
  - This tool allows you to dynamically adjust the triangle count of the generated mesh.
