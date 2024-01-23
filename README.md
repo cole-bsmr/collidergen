@@ -1,11 +1,11 @@
-# collidergen
+# ColliderGen
 A robotics focused addon for Blender that creates collision geometry and SDF files.
 
 ## Installation
  - Download the addon: **[ColliderGen addon](https://github.com/cole-bsmr/collidergen/blob/main/collidergen.py)**
  - Go to Edit > Preferences > Addons then click the “Install” button in the upper right. Select the collidergen.py file that you downloaded. Collider Gen will now appear in your list of addons and you can activate by checking the box next to it.
 
-## How to use
+# How to use
 
 ## Import
 The import interface allows you to quickly access importers for commonly used file types as well as prepare the imported meshes for applying collision objects
