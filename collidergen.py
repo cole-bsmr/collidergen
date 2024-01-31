@@ -28,10 +28,10 @@ bl_info = {
 import bpy
 import bpy.utils.previews
 import mathutils
+from bpy.app.handlers import persistent
 import math
 import bmesh
 import numpy as np
-from bpy.app.handlers import persistent
 import blf
 import os
 from mathutils import Vector
@@ -64,7 +64,7 @@ class dotdict(dict):
 class SNA_OT_Box_9D9E4(bpy.types.Operator):
     bl_idname = "sna.box_9d9e4"
     bl_label = "Box"
-    bl_description = ""
+    bl_description = "Creates a box collider that fits the selected object"
     bl_options = {"REGISTER", "UNDO"}
 
     @classmethod
@@ -101,9 +101,9 @@ class SNA_OT_Box_9D9E4(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_CREATE_D9148(bpy.types.Panel):
+class SNA_PT_CREATE_0051C(bpy.types.Panel):
     bl_label = 'Create'
-    bl_idname = 'SNA_PT_CREATE_D9148'
+    bl_idname = 'SNA_PT_CREATE_0051C'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -194,9 +194,9 @@ class SNA_PT_CREATE_D9148(bpy.types.Panel):
             row_40A46.prop(bpy.context.view_layer.objects.active.modifiers['Solidify'], 'thickness', text='Inflate', icon_value=0, emboss=True)
 
 
-class SNA_PT_TRANSFORM_30201(bpy.types.Panel):
+class SNA_PT_TRANSFORM_99DD4(bpy.types.Panel):
     bl_label = 'Transform'
-    bl_idname = 'SNA_PT_TRANSFORM_30201'
+    bl_idname = 'SNA_PT_TRANSFORM_99DD4'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -261,9 +261,9 @@ class SNA_OT_Scale_Cage_4E08E(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_EXPORT_420D3(bpy.types.Panel):
+class SNA_PT_EXPORT_FB33D(bpy.types.Panel):
     bl_label = 'Export'
-    bl_idname = 'SNA_PT_EXPORT_420D3'
+    bl_idname = 'SNA_PT_EXPORT_FB33D'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -325,9 +325,9 @@ class SNA_OT_Scalesphereradius_Bd79D(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_CREATE_OPTIONS_F211B(bpy.types.Panel):
+class SNA_PT_CREATE_OPTIONS_51EC3(bpy.types.Panel):
     bl_label = 'Create Options'
-    bl_idname = 'SNA_PT_CREATE_OPTIONS_F211B'
+    bl_idname = 'SNA_PT_CREATE_OPTIONS_51EC3'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -471,9 +471,14 @@ class SNA_OT_Select_Cylinder_Face_8A190(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_OT_Minbox_0936B(bpy.types.Operator):
-    bl_idname = "sna.minbox_0936b"
-    bl_label = "MinBox"
+@persistent
+def load_post_handler_A55A1(dummy):
+    pass
+
+
+class SNA_OT_Set_Active_Collection_50942(bpy.types.Operator):
+    bl_idname = "sna.set_active_collection_50942"
+    bl_label = "Set Active Collection"
     bl_description = ""
     bl_options = {"REGISTER", "UNDO"}
 
@@ -484,10 +489,118 @@ class SNA_OT_Minbox_0936B(bpy.types.Operator):
         return not False
 
     def execute(self, context):
+        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
+            pass
+        else:
+            bpy.ops.collection.create('INVOKE_DEFAULT', name='Colliders')
+            bpy.data.scenes['Scene'].collection.children.link(child=bpy.data.collections['Colliders'], )
+        for area in bpy.context.screen.areas:
+            if area.type == 'VIEW_3D':
+                # Access the 3D Viewport's shading settings
+                space_3d = area.spaces.active
+                if space_3d:
+                    # Set the viewport shading color type to 'OBJECT'
+                    space_3d.shading.color_type = 'OBJECT'
+                    print("Viewport shading color type set to 'OBJECT'")
+        print("Script could not find an active 3D Viewport.")
+        bpy.data.collections['Colliders'].objects.link(object=bpy.context.view_layer.objects.active, )
+        for i_BC317 in range(len(bpy.data.collections)):
+            if False:
+                None.objects.unlink(object=bpy.context.view_layer.objects.active, )
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Set_Collider_Material_33Bff(bpy.types.Operator):
+    bl_idname = "sna.set_collider_material_33bff"
+    bl_label = "Set Collider Material"
+    bl_description = ""
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        bpy.context.view_layer.objects.active.show_wire = True
+        bpy.context.view_layer.objects.active.color = (1.0, 0.0, 1.0, 0.5)
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Move_To_Colllder_Collection_1Fa60(bpy.types.Operator):
+    bl_idname = "sna.move_to_colllder_collection_1fa60"
+    bl_label = "Move to Colllder collection"
+    bl_description = ""
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
+            pass
+        else:
+            bpy.ops.collection.create('INVOKE_DEFAULT', name='Colliders')
+            bpy.data.scenes['Scene'].collection.children.link(child=bpy.data.collections['Colliders'], )
+        collider['sna_isincolliders'] = False
+        if False:
+            pass
+        collider['sna_userscollection'] = bpy.context.view_layer.objects.active.users_collection
+        for i_CC8AD in range(len(collider['sna_userscollection'])):
+            if 'Colliders' in collider['sna_userscollection'][i_CC8AD].name:
+                collider['sna_isincolliders'] = True
+        if collider['sna_isincolliders']:
+            pass
+        else:
+            bpy.data.collections['Colliders'].objects.link(object=bpy.context.view_layer.objects.active, )
+        for i_0A612 in range(len(collider['sna_userscollection'])):
+            if (collider['sna_userscollection'][i_0A612].name == 'Colliders'):
+                pass
+            else:
+                collider['sna_userscollection'][i_0A612].objects.unlink(object=bpy.context.view_layer.objects.active, )
+                for area in bpy.context.screen.areas:
+                    if area.type == 'VIEW_3D':
+                        # Access the 3D Viewport's shading settings
+                        space_3d = area.spaces.active
+                        if space_3d:
+                            # Set the viewport shading color type to 'OBJECT'
+                            space_3d.shading.color_type = 'OBJECT'
+                            print("Viewport shading color type set to 'OBJECT'")
+                print("Script could not find an active 3D Viewport.")
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Minbox_0936B(bpy.types.Operator):
+    bl_idname = "sna.minbox_0936b"
+    bl_label = "MinBox"
+    bl_description = "Creates a box collider that fits the selected object"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
         collider['sna_minboxname'] = bpy.context.view_layer.objects.active.name
+        collider['sna_selection'] = bpy.context.selected_objects
         if bpy.context.scene.sna_perobj:
-            for i_88F10 in range(len(bpy.context.view_layer.objects.selected)):
-                MinBB = bpy.context.view_layer.objects.selected[i_88F10]
+            for i_88F10 in range(len(collider['sna_selection'])):
+                MinBB = collider['sna_selection'][i_88F10]
                 from timeit import default_timer as timer
                 #import bpy
                 from mathutils import Matrix
@@ -721,222 +834,6 @@ class SNA_OT_Minbox_0936B(bpy.types.Operator):
         return self.execute(context)
 
 
-@persistent
-def load_post_handler_A55A1(dummy):
-    pass
-
-
-class SNA_OT_Set_Active_Collection_50942(bpy.types.Operator):
-    bl_idname = "sna.set_active_collection_50942"
-    bl_label = "Set Active Collection"
-    bl_description = ""
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
-            pass
-        else:
-            bpy.ops.collection.create('INVOKE_DEFAULT', name='Colliders')
-            bpy.data.scenes['Scene'].collection.children.link(child=bpy.data.collections['Colliders'], )
-        for area in bpy.context.screen.areas:
-            if area.type == 'VIEW_3D':
-                # Access the 3D Viewport's shading settings
-                space_3d = area.spaces.active
-                if space_3d:
-                    # Set the viewport shading color type to 'OBJECT'
-                    space_3d.shading.color_type = 'OBJECT'
-                    print("Viewport shading color type set to 'OBJECT'")
-        print("Script could not find an active 3D Viewport.")
-        bpy.data.collections['Colliders'].objects.link(object=bpy.context.view_layer.objects.active, )
-        for i_BC317 in range(len(bpy.data.collections)):
-            if False:
-                None.objects.unlink(object=bpy.context.view_layer.objects.active, )
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
-class SNA_OT_Set_Collider_Material_33Bff(bpy.types.Operator):
-    bl_idname = "sna.set_collider_material_33bff"
-    bl_label = "Set Collider Material"
-    bl_description = ""
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        bpy.context.view_layer.objects.active.show_wire = True
-        bpy.context.view_layer.objects.active.color = (1.0, 0.0, 1.0, 0.5)
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
-class SNA_OT_Move_To_Colllder_Collection_1Fa60(bpy.types.Operator):
-    bl_idname = "sna.move_to_colllder_collection_1fa60"
-    bl_label = "Move to Colllder collection"
-    bl_description = ""
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
-            pass
-        else:
-            bpy.ops.collection.create('INVOKE_DEFAULT', name='Colliders')
-            bpy.data.scenes['Scene'].collection.children.link(child=bpy.data.collections['Colliders'], )
-        collider['sna_isincolliders'] = False
-        if False:
-            pass
-        collider['sna_userscollection'] = bpy.context.view_layer.objects.active.users_collection
-        for i_CC8AD in range(len(collider['sna_userscollection'])):
-            if 'Colliders' in collider['sna_userscollection'][i_CC8AD].name:
-                collider['sna_isincolliders'] = True
-        if collider['sna_isincolliders']:
-            pass
-        else:
-            bpy.data.collections['Colliders'].objects.link(object=bpy.context.view_layer.objects.active, )
-        for i_0A612 in range(len(collider['sna_userscollection'])):
-            if (collider['sna_userscollection'][i_0A612].name == 'Colliders'):
-                pass
-            else:
-                collider['sna_userscollection'][i_0A612].objects.unlink(object=bpy.context.view_layer.objects.active, )
-                for area in bpy.context.screen.areas:
-                    if area.type == 'VIEW_3D':
-                        # Access the 3D Viewport's shading settings
-                        space_3d = area.spaces.active
-                        if space_3d:
-                            # Set the viewport shading color type to 'OBJECT'
-                            space_3d.shading.color_type = 'OBJECT'
-                            print("Viewport shading color type set to 'OBJECT'")
-                print("Script could not find an active 3D Viewport.")
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
-class SNA_OT_Cylinder_Z_83F4C(bpy.types.Operator):
-    bl_idname = "sna.cylinder_z_83f4c"
-    bl_label = "Cylinder Z"
-    bl_description = "Cylinder"
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
-            cylinder['sna_colliderscollectionexists'] = True
-        else:
-            cylinder['sna_colliderscollectionexists'] = False
-        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
-        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
-        for i_6E2BC in range(len(bpy.context.view_layer.objects.selected)):
-            exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
-            bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
-            if (tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] >= tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]):
-                bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2]))
-                bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-            else:
-                bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2]))
-                bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
-class SNA_OT_Cylinder_X_3A040(bpy.types.Operator):
-    bl_idname = "sna.cylinder_x_3a040"
-    bl_label = "Cylinder X"
-    bl_description = "Cylinder"
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
-            cylinder['sna_colliderscollectionexists'] = True
-        else:
-            cylinder['sna_colliderscollectionexists'] = False
-        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
-        for i_315C7 in range(len(bpy.context.view_layer.objects.selected)):
-            exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
-            bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
-            if (tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] >= tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]):
-                bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0]))
-                bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-                exec("bpy.ops.transform.rotate(value=1.57, orient_axis='Y', orient_type='LOCAL')")
-            else:
-                bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0]))
-                bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-                exec("bpy.ops.transform.rotate(value=1.57, orient_axis='Y', orient_type='LOCAL')")
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
-class SNA_OT_Cylinder_Y_F23B4(bpy.types.Operator):
-    bl_idname = "sna.cylinder_y_f23b4"
-    bl_label = "Cylinder Y"
-    bl_description = "Cylinder"
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
-            cylinder['sna_colliderscollectionexists'] = True
-        else:
-            cylinder['sna_colliderscollectionexists'] = False
-        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
-        for i_4D876 in range(len(bpy.context.view_layer.objects.selected)):
-            exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
-            bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
-            if (tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] >= tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]):
-                bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]))
-                bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-                exec("bpy.ops.transform.rotate(value=1.57, orient_axis='X', orient_type='LOCAL')")
-            else:
-                bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]))
-                bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-                exec("bpy.ops.transform.rotate(value=1.57, orient_axis='X', orient_type='LOCAL')")
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
 _050B8_running = False
 class SNA_OT_Cylinder_050B8(bpy.types.Operator):
     bl_idname = "sna.cylinder_050b8"
@@ -1095,6 +992,9 @@ class SNA_OT_Cylinder_050B8(bpy.types.Operator):
         context.window.cursor_set("DEFAULT")
         bpy.types.SpaceView3D.draw_handler_remove(self._handle, 'WINDOW')
         bpy.ops.sna.move_to_colllder_collection_1fa60('INVOKE_DEFAULT', )
+        if (collider['sna_joinedobj'] != None):
+            bpy.data.objects.remove(object=collider['sna_joinedobj'], )
+            collider['sna_joinedobj'] = None
         for area in context.screen.areas:
             area.tag_redraw()
         return {"FINISHED"}
@@ -1109,9 +1009,7 @@ class SNA_OT_Cylinder_050B8(bpy.types.Operator):
         context.window.cursor_set('CROSSHAIR')
         try:
             if (event.type == 'X' and event.value == 'PRESS' and event.alt == False and event.shift == False and event.ctrl == False):
-                print('1')
                 if (bpy.context.view_layer.objects.active.name == cylinder['sna_actobjcylgen']):
-                    print('1')
                     bpy.ops.sna.cylinder_x_3a040('INVOKE_DEFAULT', )
                 else:
                     bpy.ops.object.delete('INVOKE_DEFAULT', confirm=False)
@@ -1119,7 +1017,6 @@ class SNA_OT_Cylinder_050B8(bpy.types.Operator):
                     bpy.context.view_layer.objects.active = bpy.context.view_layer.objects.selected[cylinder['sna_actobjcylgen']]
                     bpy.ops.sna.cylinder_x_3a040('INVOKE_DEFAULT', )
             else:
-                print('2')
                 if (event.type == 'Y' and event.value == 'PRESS' and event.alt == False and event.shift == False and event.ctrl == False):
                     if (bpy.context.view_layer.objects.active.name == cylinder['sna_actobjcylgen']):
                         bpy.ops.sna.cylinder_x_3a040('INVOKE_DEFAULT', )
@@ -1166,12 +1063,120 @@ class SNA_OT_Cylinder_050B8(bpy.types.Operator):
         else:
             self.save_event(event)
             self.start_pos = (event.mouse_x, event.mouse_y)
+            collider['sna_joinedobj'] = None
             cylinder['sna_actobjcylgen'] = bpy.context.view_layer.objects.active.name
+            if (len(bpy.context.selected_objects) > 1):
+                exec('bpy.ops.object.duplicate()')
+                exec('bpy.ops.object.join()')
+                collider['sna_joinedobj'] = bpy.context.view_layer.objects.active
+                cylinder['sna_actobjcylgen'] = bpy.context.view_layer.objects.active.name
             args = (context,)
             self._handle = bpy.types.SpaceView3D.draw_handler_add(self.draw_callback_px, args, 'WINDOW', 'POST_PIXEL')
             context.window_manager.modal_handler_add(self)
             _050B8_running = True
             return {'RUNNING_MODAL'}
+
+
+class SNA_OT_Cylinder_Z_83F4C(bpy.types.Operator):
+    bl_idname = "sna.cylinder_z_83f4c"
+    bl_label = "Cylinder Z"
+    bl_description = "Cylinder"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
+            cylinder['sna_colliderscollectionexists'] = True
+        else:
+            cylinder['sna_colliderscollectionexists'] = False
+        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
+        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
+        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
+        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
+        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0]
+        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]
+        largest_float = None
+        largest_float = max(float1, float2)
+        print(largest_float)
+        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler)
+        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Cylinder_X_3A040(bpy.types.Operator):
+    bl_idname = "sna.cylinder_x_3a040"
+    bl_label = "Cylinder X"
+    bl_description = "Cylinder"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
+            cylinder['sna_colliderscollectionexists'] = True
+        else:
+            cylinder['sna_colliderscollectionexists'] = False
+        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
+        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
+        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
+        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
+        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0]
+        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2]
+        largest_float = None
+        largest_float = max(float1, float2)
+        print(largest_float)
+        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=(float(bpy.context.view_layer.objects.active.rotation_euler[0] + 1.5700000524520874), bpy.context.view_layer.objects.active.rotation_euler[1], bpy.context.view_layer.objects.active.rotation_euler[2]))
+        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Cylinder_Y_F23B4(bpy.types.Operator):
+    bl_idname = "sna.cylinder_y_f23b4"
+    bl_label = "Cylinder Y"
+    bl_description = "Cylinder"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
+            cylinder['sna_colliderscollectionexists'] = True
+        else:
+            cylinder['sna_colliderscollectionexists'] = False
+        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
+        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
+        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
+        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
+        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]
+        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2]
+        largest_float = None
+        largest_float = max(float1, float2)
+        print(largest_float)
+        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=(bpy.context.view_layer.objects.active.rotation_euler[0], float(bpy.context.view_layer.objects.active.rotation_euler[1] + 1.5700000524520874), bpy.context.view_layer.objects.active.rotation_euler[2]))
+        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
 
 
 class SNA_OT_Export_Selected_9F890(bpy.types.Operator):
@@ -1351,7 +1356,9 @@ class SNA_OT_Cylindercap_0F9D8(bpy.types.Operator):
         #    bpy.ops.mesh.primitive_cube_add(size=1, enter_editmode=False, align='WORLD', location=hit_location_global)
         else:
             print("Ray did not hit anything within the specified distance on the specified object.")
+        print(str(tuple(hit_location_global)))
         if (hit_location_global == None):
+            print('RayFail')
             genface['sna_rayfail'] = True
         exec('')
         exec('from mathutils import Vector')
@@ -1410,6 +1417,7 @@ class SNA_OT_Cylindercap_0F9D8(bpy.types.Operator):
             bpy.data.scenes['Scene'].tool_settings.use_transform_data_origin = False
             bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
             bpy.data.objects.remove(object=bpy.context.scene.sna_duplicate_to_delete, )
+            bpy.ops.sna.select_cylinder_face_8a190('INVOKE_DEFAULT', )
             print('')
             if genface['sna_rayfail']:
                 prev_context = bpy.context.area.type
@@ -1841,9 +1849,9 @@ class SNA_OT_Mesh_85D40(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_IMPORT_FC836(bpy.types.Panel):
+class SNA_PT_IMPORT_288A9(bpy.types.Panel):
     bl_label = 'Import'
-    bl_idname = 'SNA_PT_IMPORT_FC836'
+    bl_idname = 'SNA_PT_IMPORT_288A9'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -2190,25 +2198,25 @@ def register():
     bpy.types.Scene.sna_filepath = bpy.props.StringProperty(name='FilePath', description='', default='C:/', subtype='DIR_PATH', maxlen=0)
     bpy.types.Scene.sna_filepathtype = bpy.props.StringProperty(name='FilePathType', description='', default='', subtype='FILE_PATH', maxlen=0)
     bpy.utils.register_class(SNA_OT_Box_9D9E4)
-    bpy.utils.register_class(SNA_PT_CREATE_D9148)
-    bpy.utils.register_class(SNA_PT_TRANSFORM_30201)
+    bpy.utils.register_class(SNA_PT_CREATE_0051C)
+    bpy.utils.register_class(SNA_PT_TRANSFORM_99DD4)
     bpy.utils.register_class(SNA_OT_Scale_Cage_4E08E)
-    bpy.utils.register_class(SNA_PT_EXPORT_420D3)
+    bpy.utils.register_class(SNA_PT_EXPORT_FB33D)
     bpy.utils.register_class(SNA_OT_Scalecylradius_E1610)
     bpy.utils.register_class(SNA_OT_Scalesphereradius_Bd79D)
-    bpy.utils.register_class(SNA_PT_CREATE_OPTIONS_F211B)
+    bpy.utils.register_class(SNA_PT_CREATE_OPTIONS_51EC3)
     bpy.utils.register_class(SNA_MT_5CC5F)
     bpy.utils.register_class(SNA_MT_4968B)
     bpy.utils.register_class(SNA_OT_Select_Cylinder_Face_8A190)
-    bpy.utils.register_class(SNA_OT_Minbox_0936B)
     bpy.app.handlers.load_post.append(load_post_handler_A55A1)
     bpy.utils.register_class(SNA_OT_Set_Active_Collection_50942)
     bpy.utils.register_class(SNA_OT_Set_Collider_Material_33Bff)
     bpy.utils.register_class(SNA_OT_Move_To_Colllder_Collection_1Fa60)
+    bpy.utils.register_class(SNA_OT_Minbox_0936B)
+    bpy.utils.register_class(SNA_OT_Cylinder_050B8)
     bpy.utils.register_class(SNA_OT_Cylinder_Z_83F4C)
     bpy.utils.register_class(SNA_OT_Cylinder_X_3A040)
     bpy.utils.register_class(SNA_OT_Cylinder_Y_F23B4)
-    bpy.utils.register_class(SNA_OT_Cylinder_050B8)
     bpy.utils.register_class(SNA_OT_Export_Selected_9F890)
     bpy.utils.register_class(SNA_OT_Export_All_451Dc)
     bpy.utils.register_class(SNA_OT_Print_Param_835E7)
@@ -2216,7 +2224,7 @@ def register():
     bpy.utils.register_class(SNA_OT_Boxcap_7899E)
     bpy.utils.register_class(SNA_OT_Selectflatfaces_0Bf7C)
     bpy.utils.register_class(SNA_OT_Mesh_85D40)
-    bpy.utils.register_class(SNA_PT_IMPORT_FC836)
+    bpy.utils.register_class(SNA_PT_IMPORT_288A9)
     bpy.utils.register_class(SNA_OT_Modal_Operator_319F9)
     bpy.utils.register_class(SNA_OT_Import_Stl_90582)
     bpy.utils.register_class(SNA_OT_Import_Fbx_644D9)
@@ -2251,25 +2259,25 @@ def unregister():
     bpy.utils.unregister_class(SNA_GROUP_sna_sog)
     bpy.utils.unregister_class(SNA_GROUP_sna_property_group)
     bpy.utils.unregister_class(SNA_OT_Box_9D9E4)
-    bpy.utils.unregister_class(SNA_PT_CREATE_D9148)
-    bpy.utils.unregister_class(SNA_PT_TRANSFORM_30201)
+    bpy.utils.unregister_class(SNA_PT_CREATE_0051C)
+    bpy.utils.unregister_class(SNA_PT_TRANSFORM_99DD4)
     bpy.utils.unregister_class(SNA_OT_Scale_Cage_4E08E)
-    bpy.utils.unregister_class(SNA_PT_EXPORT_420D3)
+    bpy.utils.unregister_class(SNA_PT_EXPORT_FB33D)
     bpy.utils.unregister_class(SNA_OT_Scalecylradius_E1610)
     bpy.utils.unregister_class(SNA_OT_Scalesphereradius_Bd79D)
-    bpy.utils.unregister_class(SNA_PT_CREATE_OPTIONS_F211B)
+    bpy.utils.unregister_class(SNA_PT_CREATE_OPTIONS_51EC3)
     bpy.utils.unregister_class(SNA_MT_5CC5F)
     bpy.utils.unregister_class(SNA_MT_4968B)
     bpy.utils.unregister_class(SNA_OT_Select_Cylinder_Face_8A190)
-    bpy.utils.unregister_class(SNA_OT_Minbox_0936B)
     bpy.app.handlers.load_post.remove(load_post_handler_A55A1)
     bpy.utils.unregister_class(SNA_OT_Set_Active_Collection_50942)
     bpy.utils.unregister_class(SNA_OT_Set_Collider_Material_33Bff)
     bpy.utils.unregister_class(SNA_OT_Move_To_Colllder_Collection_1Fa60)
+    bpy.utils.unregister_class(SNA_OT_Minbox_0936B)
+    bpy.utils.unregister_class(SNA_OT_Cylinder_050B8)
     bpy.utils.unregister_class(SNA_OT_Cylinder_Z_83F4C)
     bpy.utils.unregister_class(SNA_OT_Cylinder_X_3A040)
     bpy.utils.unregister_class(SNA_OT_Cylinder_Y_F23B4)
-    bpy.utils.unregister_class(SNA_OT_Cylinder_050B8)
     bpy.utils.unregister_class(SNA_OT_Export_Selected_9F890)
     bpy.utils.unregister_class(SNA_OT_Export_All_451Dc)
     bpy.utils.unregister_class(SNA_OT_Print_Param_835E7)
@@ -2277,7 +2285,7 @@ def unregister():
     bpy.utils.unregister_class(SNA_OT_Boxcap_7899E)
     bpy.utils.unregister_class(SNA_OT_Selectflatfaces_0Bf7C)
     bpy.utils.unregister_class(SNA_OT_Mesh_85D40)
-    bpy.utils.unregister_class(SNA_PT_IMPORT_FC836)
+    bpy.utils.unregister_class(SNA_PT_IMPORT_288A9)
     bpy.utils.unregister_class(SNA_OT_Modal_Operator_319F9)
     bpy.utils.unregister_class(SNA_OT_Import_Stl_90582)
     bpy.utils.unregister_class(SNA_OT_Import_Fbx_644D9)
