@@ -1,9 +1,13 @@
 # ColliderGen
 A robotics focused addon for Blender that creates collision geometry and SDF files.
 
+For a demonstration of how to use this tool, you can take a look at this video of the Gazebo community meeting.
+https://vimeo.com/908361057#t=36m0s
+
 ## Installation
  - Download the addon: **[ColliderGen addon](https://github.com/cole-bsmr/collidergen/blob/main/collidergen.py)**
  - Go to Edit > Preferences > Addons then click the “Install” button in the upper right. Select the collidergen.py file that you downloaded. Collider Gen will now appear in your list of addons and you can activate by checking the box next to it.
+ - After activating you can press the "N" key to open up the "N-panel" which allows you to access the tool.
 
 # How to use
 
@@ -27,6 +31,7 @@ The create options panel contains settings you can adjust to change the way the 
 ![](https://i.imgur.com/vTnr4ON.png)
 
  - This tool is mainly used for when an object is box-like and at an angle but its rotational information has been reset so that instead of creating a box that aligns to the geometry it is being aligned to the world. The “Minimal Box” setting will allow the correct alignment of box collisions to these types of geometries.
+ - Credit to "iyadahmed" for allowing me to use his fantastic minimal-box script for Blender which can be found here https://gist.github.com/iyadahmed/512883896348a7e06f7a43f3ea8580af
 
 ## Create
 #### Box
