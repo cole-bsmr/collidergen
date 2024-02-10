@@ -555,6 +555,8 @@ class SNA_OT_Move_To_Colllder_Collection_1Fa60(bpy.types.Operator):
         collider['sna_isincolliders'] = False
         if False:
             pass
+        if bpy.context.view_layer.objects.active is None:
+            return {"FINISHED"}
         collider['sna_userscollection'] = bpy.context.view_layer.objects.active.users_collection
         for i_CC8AD in range(len(collider['sna_userscollection'])):
             if 'Colliders' in collider['sna_userscollection'][i_CC8AD].name:
