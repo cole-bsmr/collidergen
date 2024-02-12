@@ -101,9 +101,9 @@ class SNA_OT_Box_9D9E4(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_CREATE_B13DA(bpy.types.Panel):
+class SNA_PT_CREATE_6BC65(bpy.types.Panel):
     bl_label = 'Create'
-    bl_idname = 'SNA_PT_CREATE_B13DA'
+    bl_idname = 'SNA_PT_CREATE_6BC65'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -194,9 +194,9 @@ class SNA_PT_CREATE_B13DA(bpy.types.Panel):
             row_40A46.prop(bpy.context.view_layer.objects.active.modifiers['Solidify'], 'thickness', text='Inflate', icon_value=0, emboss=True)
 
 
-class SNA_PT_TRANSFORM_4041B(bpy.types.Panel):
+class SNA_PT_TRANSFORM_61331(bpy.types.Panel):
     bl_label = 'Transform'
-    bl_idname = 'SNA_PT_TRANSFORM_4041B'
+    bl_idname = 'SNA_PT_TRANSFORM_61331'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -261,9 +261,9 @@ class SNA_OT_Scale_Cage_4E08E(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_EXPORT_FF2F9(bpy.types.Panel):
+class SNA_PT_EXPORT_DC2EB(bpy.types.Panel):
     bl_label = 'Export'
-    bl_idname = 'SNA_PT_EXPORT_FF2F9'
+    bl_idname = 'SNA_PT_EXPORT_DC2EB'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -325,9 +325,9 @@ class SNA_OT_Scalesphereradius_Bd79D(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_CREATE_OPTIONS_3ACB7(bpy.types.Panel):
+class SNA_PT_CREATE_OPTIONS_FABBC(bpy.types.Panel):
     bl_label = 'Create Options'
-    bl_idname = 'SNA_PT_CREATE_OPTIONS_3ACB7'
+    bl_idname = 'SNA_PT_CREATE_OPTIONS_FABBC'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -443,32 +443,6 @@ class SNA_MT_4968B(bpy.types.Menu):
         op = row_E1C20.operator('sna.box_9d9e4', text='Box', icon_value=0, emboss=True, depress=False)
         op = row_E1C20.operator('sna.cylinder_050b8', text='Cylinder', icon_value=0, emboss=True, depress=False)
         op = row_E1C20.operator('sna.sphere_f5cd9', text='Sphere', icon_value=0, emboss=True, depress=False)
-
-
-class SNA_OT_Select_Cylinder_Face_8A190(bpy.types.Operator):
-    bl_idname = "sna.select_cylinder_face_8a190"
-    bl_label = "Select cylinder face"
-    bl_description = ""
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
-        bpy.ops.mesh.select_mode('INVOKE_DEFAULT', type='FACE')
-        bpy.ops.mesh.select_all('INVOKE_DEFAULT', action='DESELECT')
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
-        bpy.context.view_layer.objects.active.data.polygons[33].select = True
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
-        bpy.ops.wm.tool_set_by_id('INVOKE_DEFAULT', name='builtin.move')
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
 
 
 @persistent
@@ -828,6 +802,58 @@ class SNA_OT_Minbox_0936B(bpy.types.Operator):
             bpy.ops.sna.move_to_colllder_collection_1fa60('INVOKE_DEFAULT', )
             bpy.context.active_object.select_set(state=True, )
             bpy.context.view_layer.objects.active.name = collider['sna_minboxname'] + '_Cube'
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Select_Box_Face_1A7Fb(bpy.types.Operator):
+    bl_idname = "sna.select_box_face_1a7fb"
+    bl_label = "Select box face"
+    bl_description = ""
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
+        bpy.ops.mesh.select_mode('INVOKE_DEFAULT', type='FACE')
+        bpy.ops.mesh.select_all('INVOKE_DEFAULT', action='DESELECT')
+        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
+        bpy.context.view_layer.objects.active.data.polygons[5].select = True
+        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
+        bpy.ops.wm.tool_set_by_id('INVOKE_DEFAULT', name='builtin.move')
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Select_Cylinder_Face_8A190(bpy.types.Operator):
+    bl_idname = "sna.select_cylinder_face_8a190"
+    bl_label = "Select cylinder face"
+    bl_description = ""
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
+        bpy.ops.mesh.select_mode('INVOKE_DEFAULT', type='FACE')
+        bpy.ops.mesh.select_all('INVOKE_DEFAULT', action='DESELECT')
+        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
+        bpy.context.view_layer.objects.active.data.polygons[33].select = True
+        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
+        bpy.ops.wm.tool_set_by_id('INVOKE_DEFAULT', name='builtin.move')
         return {"FINISHED"}
 
     def invoke(self, context, event):
@@ -1318,6 +1344,7 @@ class SNA_OT_Boxcap_7899E(bpy.types.Operator):
         ray_origin_global_vec = bpy.context.view_layer.objects.active.location
         specified_object_name = collider['sna_activeobject']
         hit_location_global = None
+        RayFail = None
         #import bpy
         from mathutils import Euler
         #ray_origin_global_vec = (1, 1, 1)
@@ -1355,10 +1382,12 @@ class SNA_OT_Boxcap_7899E(bpy.types.Operator):
                     break  # Exit the loop after the first hit
         # Check if any hits occurred
         if hit_object_name:
+            RayFail = False
             print("Object Hit:", hit_object_name)
         #    bpy.ops.mesh.primitive_cube_add(size=1, enter_editmode=False, align='WORLD', location=hit_location_global)
         else:
-            print("Ray did not hit anything within the specified distance on the specified object.")
+            RayFail = True
+        genface['sna_rayfail'] = RayFail
         exec('')
         exec('from mathutils import Vector')
         exec('bpy.context.active_object.location += 1.0 * bpy.context.active_object.matrix_world.to_quaternion() @ Vector((0, 0, 100))')
@@ -1367,46 +1396,53 @@ class SNA_OT_Boxcap_7899E(bpy.types.Operator):
         bpy.data.scenes['Scene'].tool_settings.use_transform_data_origin = False
         bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
         bpy.data.objects.remove(object=bpy.context.scene.sna_duplicate_to_delete, )
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
-        bpy.ops.mesh.select_mode('INVOKE_DEFAULT', type='FACE')
-        bpy.ops.mesh.select_all('INVOKE_DEFAULT', action='DESELECT')
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
-        bpy.context.view_layer.objects.active.data.polygons[4].select = True
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
-        bpy.ops.wm.tool_set_by_id('INVOKE_DEFAULT', name='builtin.move')
-        target_global_position = hit_location_global
-        object_name = bpy.context.view_layer.objects.active.name
-        import bmesh
-        # Replace 'Cube' with the name of your object
-        #object_name = 'Cylinder.013'
-        # Replace these coordinates with your desired global position
-        #target_global_position = Vector((7.05492, -15.1448, -2.33593))
-        # Get the active object
-        obj = bpy.data.objects.get(object_name)
-        # Check if the object exists and is in Edit Mode
-        if obj and obj.type == 'MESH' and obj.mode == 'EDIT':
-            # Get the mesh data
-            mesh = bmesh.from_edit_mesh(obj.data)
-            # Check if there is at least one selected face
-            selected_faces = [f for f in mesh.faces if f.select]
-            if selected_faces:
-                # Calculate the translation vector to the target position
-                target_local_position = obj.matrix_world.inverted() @ target_global_position
-                translation_vector = target_local_position - selected_faces[0].calc_center_median()
-                # Move the selected face(s) to the target global position
-                for face in selected_faces:
-                    for vert in face.verts:
-                        vert.co += translation_vector
-                # Update the mesh
-                bmesh.update_edit_mesh(obj.data)
-                # Print the new location of the face after the update
-                updated_center = selected_faces[0].calc_center_median()
-                print("Updated Location of Selected Face(s):", obj.matrix_world @ updated_center)
-            else:
-                print("No faces selected.")
+        bpy.ops.sna.select_box_face_1a7fb('INVOKE_DEFAULT', )
+        print('')
+        if genface['sna_rayfail']:
+            print('')
+            prev_context = bpy.context.area.type
+            bpy.context.area.type = 'VIEW_3D'
+            bpy.ops.transform.translate(value=(0.0, 0.0, float(float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1] * 3.0) * -1.0)), orient_type='LOCAL', orient_matrix_type='LOCAL', constraint_axis=(False, False, True))
+            bpy.context.area.type = prev_context
+            bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
+            bpy.ops.mesh.select_all('INVOKE_DEFAULT', action='SELECT')
+            bpy.ops.mesh.flip_normals('INVOKE_DEFAULT', )
+            bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
         else:
-            print("Object not found or not in Edit Mode.")
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
+            print('')
+            target_global_position = hit_location_global
+            object_name = bpy.context.view_layer.objects.active.name
+            import bmesh
+            # Get the active object
+            obj = bpy.data.objects.get(object_name)
+            # Check if the object exists and is in Edit Mode
+            if obj and obj.type == 'MESH' and obj.mode == 'EDIT':
+                # Get the mesh data
+                mesh = bmesh.from_edit_mesh(obj.data)
+                # Check if there is at least one selected face
+                selected_faces = [f for f in mesh.faces if f.select]
+                if selected_faces:
+                    # Calculate the translation vector to the target position
+                    target_local_position = obj.matrix_world.inverted() @ target_global_position
+                    translation_vector = target_local_position - selected_faces[0].calc_center_median()
+                    # Move the selected face(s) to the target global position
+                    for face in selected_faces:
+                        for vert in face.verts:
+                            vert.co += translation_vector
+                    # Update the mesh
+                    bmesh.update_edit_mesh(obj.data)
+                    # Print the new location of the face after the update
+                    updated_center = selected_faces[0].calc_center_median()
+                    print("Updated Location of Selected Face(s):", obj.matrix_world @ updated_center)
+                else:
+                    print("No faces selected.")
+            else:
+                print("Object not found or not in Edit Mode.")
+            print('')
+            bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
+            bpy.ops.mesh.select_all('INVOKE_DEFAULT', action='SELECT')
+            bpy.ops.mesh.flip_normals('INVOKE_DEFAULT', )
+            bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
         return {"FINISHED"}
 
     def invoke(self, context, event):
@@ -1532,10 +1568,6 @@ class SNA_OT_Cylindercap_0F9D8(bpy.types.Operator):
                 target_global_position = hit_location_global
                 object_name = bpy.context.view_layer.objects.active.name
                 import bmesh
-                # Replace 'Cube' with the name of your object
-                #object_name = 'Cylinder.013'
-                # Replace these coordinates with your desired global position
-                #target_global_position = Vector((7.05492, -15.1448, -2.33593))
                 # Get the active object
                 obj = bpy.data.objects.get(object_name)
                 # Check if the object exists and is in Edit Mode
@@ -1580,10 +1612,6 @@ class SNA_OT_Cylindercap_0F9D8(bpy.types.Operator):
                 target_global_position = hit_location_global
                 object_name = bpy.context.view_layer.objects.active.name
                 import bmesh
-                # Replace 'Cube' with the name of your object
-                #object_name = 'Cylinder.013'
-                # Replace these coordinates with your desired global position
-                #target_global_position = Vector((7.05492, -15.1448, -2.33593))
                 # Get the active object
                 obj = bpy.data.objects.get(object_name)
                 # Check if the object exists and is in Edit Mode
@@ -1857,9 +1885,9 @@ class SNA_OT_Mesh_85D40(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_IMPORT_40744(bpy.types.Panel):
+class SNA_PT_IMPORT_FC52D(bpy.types.Panel):
     bl_label = 'Import'
-    bl_idname = 'SNA_PT_IMPORT_40744'
+    bl_idname = 'SNA_PT_IMPORT_FC52D'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -2206,21 +2234,22 @@ def register():
     bpy.types.Scene.sna_filepath = bpy.props.StringProperty(name='FilePath', description='', default='C:/', subtype='DIR_PATH', maxlen=0)
     bpy.types.Scene.sna_filepathtype = bpy.props.StringProperty(name='FilePathType', description='', default='', subtype='FILE_PATH', maxlen=0)
     bpy.utils.register_class(SNA_OT_Box_9D9E4)
-    bpy.utils.register_class(SNA_PT_CREATE_B13DA)
-    bpy.utils.register_class(SNA_PT_TRANSFORM_4041B)
+    bpy.utils.register_class(SNA_PT_CREATE_6BC65)
+    bpy.utils.register_class(SNA_PT_TRANSFORM_61331)
     bpy.utils.register_class(SNA_OT_Scale_Cage_4E08E)
-    bpy.utils.register_class(SNA_PT_EXPORT_FF2F9)
+    bpy.utils.register_class(SNA_PT_EXPORT_DC2EB)
     bpy.utils.register_class(SNA_OT_Scalecylradius_E1610)
     bpy.utils.register_class(SNA_OT_Scalesphereradius_Bd79D)
-    bpy.utils.register_class(SNA_PT_CREATE_OPTIONS_3ACB7)
+    bpy.utils.register_class(SNA_PT_CREATE_OPTIONS_FABBC)
     bpy.utils.register_class(SNA_MT_5CC5F)
     bpy.utils.register_class(SNA_MT_4968B)
-    bpy.utils.register_class(SNA_OT_Select_Cylinder_Face_8A190)
     bpy.app.handlers.load_post.append(load_post_handler_A55A1)
     bpy.utils.register_class(SNA_OT_Set_Active_Collection_50942)
     bpy.utils.register_class(SNA_OT_Set_Collider_Material_33Bff)
     bpy.utils.register_class(SNA_OT_Move_To_Colllder_Collection_1Fa60)
     bpy.utils.register_class(SNA_OT_Minbox_0936B)
+    bpy.utils.register_class(SNA_OT_Select_Box_Face_1A7Fb)
+    bpy.utils.register_class(SNA_OT_Select_Cylinder_Face_8A190)
     bpy.utils.register_class(SNA_OT_Cylinder_Z_83F4C)
     bpy.utils.register_class(SNA_OT_Cylinder_X_3A040)
     bpy.utils.register_class(SNA_OT_Cylinder_Y_F23B4)
@@ -2232,7 +2261,7 @@ def register():
     bpy.utils.register_class(SNA_OT_Cylindercap_0F9D8)
     bpy.utils.register_class(SNA_OT_Selectflatfaces_0Bf7C)
     bpy.utils.register_class(SNA_OT_Mesh_85D40)
-    bpy.utils.register_class(SNA_PT_IMPORT_40744)
+    bpy.utils.register_class(SNA_PT_IMPORT_FC52D)
     bpy.utils.register_class(SNA_OT_Modal_Operator_319F9)
     bpy.utils.register_class(SNA_OT_Import_Stl_90582)
     bpy.utils.register_class(SNA_OT_Import_Fbx_644D9)
@@ -2267,21 +2296,22 @@ def unregister():
     bpy.utils.unregister_class(SNA_GROUP_sna_sog)
     bpy.utils.unregister_class(SNA_GROUP_sna_property_group)
     bpy.utils.unregister_class(SNA_OT_Box_9D9E4)
-    bpy.utils.unregister_class(SNA_PT_CREATE_B13DA)
-    bpy.utils.unregister_class(SNA_PT_TRANSFORM_4041B)
+    bpy.utils.unregister_class(SNA_PT_CREATE_6BC65)
+    bpy.utils.unregister_class(SNA_PT_TRANSFORM_61331)
     bpy.utils.unregister_class(SNA_OT_Scale_Cage_4E08E)
-    bpy.utils.unregister_class(SNA_PT_EXPORT_FF2F9)
+    bpy.utils.unregister_class(SNA_PT_EXPORT_DC2EB)
     bpy.utils.unregister_class(SNA_OT_Scalecylradius_E1610)
     bpy.utils.unregister_class(SNA_OT_Scalesphereradius_Bd79D)
-    bpy.utils.unregister_class(SNA_PT_CREATE_OPTIONS_3ACB7)
+    bpy.utils.unregister_class(SNA_PT_CREATE_OPTIONS_FABBC)
     bpy.utils.unregister_class(SNA_MT_5CC5F)
     bpy.utils.unregister_class(SNA_MT_4968B)
-    bpy.utils.unregister_class(SNA_OT_Select_Cylinder_Face_8A190)
     bpy.app.handlers.load_post.remove(load_post_handler_A55A1)
     bpy.utils.unregister_class(SNA_OT_Set_Active_Collection_50942)
     bpy.utils.unregister_class(SNA_OT_Set_Collider_Material_33Bff)
     bpy.utils.unregister_class(SNA_OT_Move_To_Colllder_Collection_1Fa60)
     bpy.utils.unregister_class(SNA_OT_Minbox_0936B)
+    bpy.utils.unregister_class(SNA_OT_Select_Box_Face_1A7Fb)
+    bpy.utils.unregister_class(SNA_OT_Select_Cylinder_Face_8A190)
     bpy.utils.unregister_class(SNA_OT_Cylinder_Z_83F4C)
     bpy.utils.unregister_class(SNA_OT_Cylinder_X_3A040)
     bpy.utils.unregister_class(SNA_OT_Cylinder_Y_F23B4)
@@ -2293,7 +2323,7 @@ def unregister():
     bpy.utils.unregister_class(SNA_OT_Cylindercap_0F9D8)
     bpy.utils.unregister_class(SNA_OT_Selectflatfaces_0Bf7C)
     bpy.utils.unregister_class(SNA_OT_Mesh_85D40)
-    bpy.utils.unregister_class(SNA_PT_IMPORT_40744)
+    bpy.utils.unregister_class(SNA_PT_IMPORT_FC52D)
     bpy.utils.unregister_class(SNA_OT_Modal_Operator_319F9)
     bpy.utils.unregister_class(SNA_OT_Import_Stl_90582)
     bpy.utils.unregister_class(SNA_OT_Import_Fbx_644D9)
