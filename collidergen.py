@@ -15,8 +15,8 @@ bl_info = {
     "name" : "ColliderGen",
     "author" : "Cole Biesemeyer", 
     "description" : "Creates collision geometry and simple shapes for use in robotics simulators.",
-    "blender" : (3, 0, 0),
-    "version" : (1, 0, 0),
+    "blender" : (4, 0, 0),
+    "version" : (1, 0, 1),
     "location" : "Editors -> ColliderGen",
     "warning" : "",
     "doc_url": "", 
@@ -101,9 +101,9 @@ class SNA_OT_Box_9D9E4(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_CREATE_0051C(bpy.types.Panel):
+class SNA_PT_CREATE_B13DA(bpy.types.Panel):
     bl_label = 'Create'
-    bl_idname = 'SNA_PT_CREATE_0051C'
+    bl_idname = 'SNA_PT_CREATE_B13DA'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -194,9 +194,9 @@ class SNA_PT_CREATE_0051C(bpy.types.Panel):
             row_40A46.prop(bpy.context.view_layer.objects.active.modifiers['Solidify'], 'thickness', text='Inflate', icon_value=0, emboss=True)
 
 
-class SNA_PT_TRANSFORM_99DD4(bpy.types.Panel):
+class SNA_PT_TRANSFORM_4041B(bpy.types.Panel):
     bl_label = 'Transform'
-    bl_idname = 'SNA_PT_TRANSFORM_99DD4'
+    bl_idname = 'SNA_PT_TRANSFORM_4041B'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -261,9 +261,9 @@ class SNA_OT_Scale_Cage_4E08E(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_EXPORT_FB33D(bpy.types.Panel):
+class SNA_PT_EXPORT_FF2F9(bpy.types.Panel):
     bl_label = 'Export'
-    bl_idname = 'SNA_PT_EXPORT_FB33D'
+    bl_idname = 'SNA_PT_EXPORT_FF2F9'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -325,9 +325,9 @@ class SNA_OT_Scalesphereradius_Bd79D(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_CREATE_OPTIONS_51EC3(bpy.types.Panel):
+class SNA_PT_CREATE_OPTIONS_3ACB7(bpy.types.Panel):
     bl_label = 'Create Options'
-    bl_idname = 'SNA_PT_CREATE_OPTIONS_51EC3'
+    bl_idname = 'SNA_PT_CREATE_OPTIONS_3ACB7'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -834,6 +834,108 @@ class SNA_OT_Minbox_0936B(bpy.types.Operator):
         return self.execute(context)
 
 
+class SNA_OT_Cylinder_Z_83F4C(bpy.types.Operator):
+    bl_idname = "sna.cylinder_z_83f4c"
+    bl_label = "Cylinder Z"
+    bl_description = "Cylinder"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
+            cylinder['sna_colliderscollectionexists'] = True
+        else:
+            cylinder['sna_colliderscollectionexists'] = False
+        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
+        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
+        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
+        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
+        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0]
+        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]
+        largest_float = None
+        largest_float = max(float1, float2)
+        print(largest_float)
+        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler)
+        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Cylinder_X_3A040(bpy.types.Operator):
+    bl_idname = "sna.cylinder_x_3a040"
+    bl_label = "Cylinder X"
+    bl_description = "Cylinder"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
+            cylinder['sna_colliderscollectionexists'] = True
+        else:
+            cylinder['sna_colliderscollectionexists'] = False
+        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
+        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
+        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
+        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
+        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0]
+        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2]
+        largest_float = None
+        largest_float = max(float1, float2)
+        print(largest_float)
+        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=(float(bpy.context.view_layer.objects.active.rotation_euler[0] + 1.5700000524520874), bpy.context.view_layer.objects.active.rotation_euler[1], bpy.context.view_layer.objects.active.rotation_euler[2]))
+        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Cylinder_Y_F23B4(bpy.types.Operator):
+    bl_idname = "sna.cylinder_y_f23b4"
+    bl_label = "Cylinder Y"
+    bl_description = "Cylinder"
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
+            cylinder['sna_colliderscollectionexists'] = True
+        else:
+            cylinder['sna_colliderscollectionexists'] = False
+        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
+        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
+        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
+        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
+        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]
+        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2]
+        largest_float = None
+        largest_float = max(float1, float2)
+        print(largest_float)
+        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=(bpy.context.view_layer.objects.active.rotation_euler[0], float(bpy.context.view_layer.objects.active.rotation_euler[1] + 1.5700000524520874), bpy.context.view_layer.objects.active.rotation_euler[2]))
+        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
 _050B8_running = False
 class SNA_OT_Cylinder_050B8(bpy.types.Operator):
     bl_idname = "sna.cylinder_050b8"
@@ -991,10 +1093,13 @@ class SNA_OT_Cylinder_050B8(bpy.types.Operator):
         _050B8_running = False
         context.window.cursor_set("DEFAULT")
         bpy.types.SpaceView3D.draw_handler_remove(self._handle, 'WINDOW')
-        bpy.ops.sna.move_to_colllder_collection_1fa60('INVOKE_DEFAULT', )
-        if (collider['sna_joinedobj'] != None):
-            bpy.data.objects.remove(object=collider['sna_joinedobj'], )
-            collider['sna_joinedobj'] = None
+        if (bpy.context.view_layer.objects.active == None):
+            pass
+        else:
+            bpy.ops.sna.move_to_colllder_collection_1fa60('INVOKE_DEFAULT', )
+            if (collider['sna_joinedobj'] != None):
+                bpy.data.objects.remove(object=collider['sna_joinedobj'], )
+                collider['sna_joinedobj'] = None
         for area in context.screen.areas:
             area.tag_redraw()
         return {"FINISHED"}
@@ -1075,108 +1180,6 @@ class SNA_OT_Cylinder_050B8(bpy.types.Operator):
             context.window_manager.modal_handler_add(self)
             _050B8_running = True
             return {'RUNNING_MODAL'}
-
-
-class SNA_OT_Cylinder_Z_83F4C(bpy.types.Operator):
-    bl_idname = "sna.cylinder_z_83f4c"
-    bl_label = "Cylinder Z"
-    bl_description = "Cylinder"
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
-            cylinder['sna_colliderscollectionexists'] = True
-        else:
-            cylinder['sna_colliderscollectionexists'] = False
-        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
-        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
-        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
-        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
-        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0]
-        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]
-        largest_float = None
-        largest_float = max(float1, float2)
-        print(largest_float)
-        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler)
-        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
-class SNA_OT_Cylinder_X_3A040(bpy.types.Operator):
-    bl_idname = "sna.cylinder_x_3a040"
-    bl_label = "Cylinder X"
-    bl_description = "Cylinder"
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
-            cylinder['sna_colliderscollectionexists'] = True
-        else:
-            cylinder['sna_colliderscollectionexists'] = False
-        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
-        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
-        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
-        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
-        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0]
-        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2]
-        largest_float = None
-        largest_float = max(float1, float2)
-        print(largest_float)
-        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=(float(bpy.context.view_layer.objects.active.rotation_euler[0] + 1.5700000524520874), bpy.context.view_layer.objects.active.rotation_euler[1], bpy.context.view_layer.objects.active.rotation_euler[2]))
-        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
-class SNA_OT_Cylinder_Y_F23B4(bpy.types.Operator):
-    bl_idname = "sna.cylinder_y_f23b4"
-    bl_label = "Cylinder Y"
-    bl_description = "Cylinder"
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        if (property_exists("bpy.context.scene.collection.children", globals(), locals()) and 'Colliders' in bpy.context.scene.collection.children):
-            cylinder['sna_colliderscollectionexists'] = True
-        else:
-            cylinder['sna_colliderscollectionexists'] = False
-        cylinder['sna_cylusercollection'] = bpy.context.view_layer.objects.active.users_collection
-        cylinder['sna_cylsource'] = bpy.context.view_layer.objects.active
-        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
-        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
-        float1 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]
-        float2 = tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[2]
-        largest_float = None
-        largest_float = max(float1, float2)
-        print(largest_float)
-        bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', radius=largest_float, depth=float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] * 2.0), location=bpy.context.view_layer.objects.active.location, rotation=(bpy.context.view_layer.objects.active.rotation_euler[0], float(bpy.context.view_layer.objects.active.rotation_euler[1] + 1.5700000524520874), bpy.context.view_layer.objects.active.rotation_euler[2]))
-        bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
 
 
 class SNA_OT_Export_Selected_9F890(bpy.types.Operator):
@@ -1260,203 +1263,6 @@ class SNA_OT_Print_Param_835E7(bpy.types.Operator):
                             bpy.ops.export_mesh.stl(filepath=os.path.join(bpy.path.abspath(bpy.context.scene.sna_filepath),bpy.context.scene.sna_filepathtype), check_existing=False, use_selection=True)
                             with open(os.path.join(bpy.path.abspath(bpy.context.scene.sna_filepath),'model.sdf'), mode='a') as file_FC99B:
                                 file_FC99B.write('\n<collision name ="' + export_colliders['sna_selobjforexp'][i_9E654].name + '">\n' + '  <geometry>\n' + '    <mesh>\n' + '      <uri>' + export_colliders['sna_selobjforexp'][i_9E654].name + '.stl</uri>\n' + '    </mesh>\n' + '  </geometry>\n' + '</collision>')
-        return {"FINISHED"}
-
-    def invoke(self, context, event):
-        return self.execute(context)
-
-
-class SNA_OT_Cylindercap_0F9D8(bpy.types.Operator):
-    bl_idname = "sna.cylindercap_0f9d8"
-    bl_label = "CylinderCap"
-    bl_description = ""
-    bl_options = {"REGISTER", "UNDO"}
-
-    @classmethod
-    def poll(cls, context):
-        if bpy.app.version >= (3, 0, 0) and True:
-            cls.poll_message_set('')
-        return not False
-
-    def execute(self, context):
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
-        collider['sna_activeobject'] = bpy.context.view_layer.objects.active.name
-        bpy.ops.object.duplicate('INVOKE_DEFAULT', )
-        print(collider['sna_activeobject'])
-        bpy.context.scene.sna_duplicate_to_delete = bpy.context.view_layer.objects.active
-        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
-        exec("bpy.ops.mesh.select_all(action='INVERT')")
-        bpy.ops.mesh.delete('INVOKE_DEFAULT', type='FACE')
-        exec("bpy.ops.mesh.select_all(action='SELECT')")
-        area_type = 'VIEW_3D'
-        areas  = [area for area in bpy.context.window.screen.areas if area.type == area_type]
-        bpy.context.scene.tool_settings.use_transform_data_origin = True
-        with bpy.context.temp_override(area=areas[0]):
-            bpy.ops.transform.create_orientation(use=True)
-            bpy.ops.object.editmode_toggle()
-            transform_type = bpy.context.scene.transform_orientation_slots[0].type
-            bpy.ops.transform.transform(mode='ALIGN', orient_type='Face', orient_matrix_type=transform_type, mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', use_proportional_connected=False, use_proportional_projected=False, snap=False, snap_elements={'INCREMENT'}, use_snap_project=False, snap_target='ACTIVE', use_snap_self=True, use_snap_edit=True, use_snap_nonedit=True, use_snap_selectable=False)
-            bpy.ops.transform.delete_orientation()
-        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
-        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
-        exec('')
-        exec('from mathutils import Vector')
-        exec('bpy.context.active_object.location += 1.0 * bpy.context.active_object.matrix_world.to_quaternion() @ Vector((0, 0, -100))')
-        euler_angles = bpy.context.view_layer.objects.active.rotation_euler
-        normal_direction = None
-        from mathutils import Euler
-        # Convert Euler angles to a rotation matrix
-        rotation_matrix = euler_angles.to_matrix()
-        # Extract the normal direction from the rotation matrix
-        normal_direction = rotation_matrix.to_3x3() @ mathutils.Vector((0, 0, 1))
-        print(collider['sna_activeobject'], str(normal_direction), str(bpy.context.view_layer.objects.active.location))
-        print(str(normal_direction), str(bpy.context.view_layer.objects.active.location), collider['sna_activeobject'])
-        ray_direction_global_vec = normal_direction
-        ray_origin_global_vec = bpy.context.view_layer.objects.active.location
-        specified_object_name = collider['sna_activeobject']
-        hit_location_global = None
-        #import bpy
-        from mathutils import Euler
-        #ray_origin_global_vec = (1, 1, 1)
-        #ray_direction_global_vec = (1, 1, 1)
-        # Set the starting point for the ray (origin) in global coordinates
-        ray_origin_global = mathutils.Vector(ray_origin_global_vec)
-        # Set the direction of the ray (upwards along the positive Z-axis) in global coordinates
-        ray_direction_global = mathutils.Vector(ray_direction_global_vec)
-        # Set the maximum distance for the ray
-        max_distance = 1000.0  # Adjust as needed
-        # Specify the object name you want to cast rys against
-        #specified_object_name = "Link4"
-        # Ensure the scene is in OBJECT mode
-        bpy.ops.object.mode_set(mode='OBJECT')
-        # Get the current dependency graph
-        depsgraph = bpy.context.evaluated_depsgraph_get()
-        hit_object_name = None
-        hit_location_global = None
-        # Iterate through all visible objects in the scene
-        for obj in bpy.context.visible_objects:
-            # Check if the current object is the specified object
-            if obj.name == specified_object_name:
-                # Convert the ray origin and direction to object local coordinates
-                ray_origin_local = obj.matrix_world.inverted() @ ray_origin_global
-                ray_direction_local = obj.matrix_world.inverted().to_3x3() @ ray_direction_global
-                # Cast the ray for the specified object
-                success, location, normal, index = obj.ray_cast(ray_origin_local, ray_direction_local)
-                if success:
-                    # Convert the hit location back to global coordinates
-                    hit_location_global = obj.matrix_world @ location
-                    print("Ray Hit Location (Global):", hit_location_global)
-                    print("Hit Normal:", normal)
-                    print("Face Index:", index)
-                    hit_object_name = obj.name
-                    break  # Exit the loop after the first hit
-        # Check if any hits occurred
-        if hit_object_name:
-            print("Object Hit:", hit_object_name)
-        #    bpy.ops.mesh.primitive_cube_add(size=1, enter_editmode=False, align='WORLD', location=hit_location_global)
-        else:
-            print("Ray did not hit anything within the specified distance on the specified object.")
-        print(str(tuple(hit_location_global)))
-        if (hit_location_global == None):
-            print('RayFail')
-            genface['sna_rayfail'] = True
-        exec('')
-        exec('from mathutils import Vector')
-        exec('bpy.context.active_object.location += 1.0 * bpy.context.active_object.matrix_world.to_quaternion() @ Vector((0, 0, 100))')
-        if (tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] >= tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]):
-            bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0], 0.0))
-            collider['sna_moveoutcollection'] = bpy.context.collection
-            collider['sna_activeobjectcollider'] = bpy.context.view_layer.objects.active
-            bpy.ops.sna.move_to_colllder_collection_1fa60('INVOKE_DEFAULT', )
-            bpy.data.scenes['Scene'].tool_settings.use_transform_data_origin = False
-            bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-            bpy.data.objects.remove(object=bpy.context.scene.sna_duplicate_to_delete, )
-            bpy.ops.sna.select_cylinder_face_8a190('INVOKE_DEFAULT', )
-            print('1')
-            if genface['sna_rayfail']:
-                prev_context = bpy.context.area.type
-                bpy.context.area.type = 'VIEW_3D'
-                bpy.ops.transform.translate(value=(0.0, 0.0, float(float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] * 3.0) * -1.0)), orient_type='LOCAL', orient_matrix_type='LOCAL', constraint_axis=(False, False, True))
-                bpy.context.area.type = prev_context
-            else:
-                target_global_position = hit_location_global
-                object_name = bpy.context.view_layer.objects.active.name
-                import bmesh
-                # Replace 'Cube' with the name of your object
-                #object_name = 'Cylinder.013'
-                # Replace these coordinates with your desired global position
-                #target_global_position = Vector((7.05492, -15.1448, -2.33593))
-                # Get the active object
-                obj = bpy.data.objects.get(object_name)
-                # Check if the object exists and is in Edit Mode
-                if obj and obj.type == 'MESH' and obj.mode == 'EDIT':
-                    # Get the mesh data
-                    mesh = bmesh.from_edit_mesh(obj.data)
-                    # Check if there is at least one selected face
-                    selected_faces = [f for f in mesh.faces if f.select]
-                    if selected_faces:
-                        # Calculate the translation vector to the target position
-                        target_local_position = obj.matrix_world.inverted() @ target_global_position
-                        translation_vector = target_local_position - selected_faces[0].calc_center_median()
-                        # Move the selected face(s) to the target global position
-                        for face in selected_faces:
-                            for vert in face.verts:
-                                vert.co += translation_vector
-                        # Update the mesh
-                        bmesh.update_edit_mesh(obj.data)
-                        # Print the new location of the face after the update
-                        updated_center = selected_faces[0].calc_center_median()
-                        print("Updated Location of Selected Face(s):", obj.matrix_world @ updated_center)
-                    else:
-                        print("No faces selected.")
-                else:
-                    print("Object not found or not in Edit Mode.")
-        else:
-            bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1], 0.0))
-            bpy.ops.sna.move_to_colllder_collection_1fa60('INVOKE_DEFAULT', )
-            bpy.data.scenes['Scene'].tool_settings.use_transform_data_origin = False
-            bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
-            bpy.data.objects.remove(object=bpy.context.scene.sna_duplicate_to_delete, )
-            bpy.ops.sna.select_cylinder_face_8a190('INVOKE_DEFAULT', )
-            print('')
-            if genface['sna_rayfail']:
-                prev_context = bpy.context.area.type
-                bpy.context.area.type = 'VIEW_3D'
-                bpy.ops.transform.translate(value=(0.0, 0.0, float(float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1] * 3.0) * -1.0)), orient_type='LOCAL', orient_matrix_type='LOCAL', constraint_axis=(False, False, True))
-                bpy.context.area.type = prev_context
-            else:
-                target_global_position = hit_location_global
-                object_name = bpy.context.view_layer.objects.active.name
-                import bmesh
-                # Replace 'Cube' with the name of your object
-                #object_name = 'Cylinder.013'
-                # Replace these coordinates with your desired global position
-                #target_global_position = Vector((7.05492, -15.1448, -2.33593))
-                # Get the active object
-                obj = bpy.data.objects.get(object_name)
-                # Check if the object exists and is in Edit Mode
-                if obj and obj.type == 'MESH' and obj.mode == 'EDIT':
-                    # Get the mesh data
-                    mesh = bmesh.from_edit_mesh(obj.data)
-                    # Check if there is at least one selected face
-                    selected_faces = [f for f in mesh.faces if f.select]
-                    if selected_faces:
-                        # Calculate the translation vector to the target position
-                        target_local_position = obj.matrix_world.inverted() @ target_global_position
-                        translation_vector = target_local_position - selected_faces[0].calc_center_median()
-                        # Move the selected face(s) to the target global position
-                        for face in selected_faces:
-                            for vert in face.verts:
-                                vert.co += translation_vector
-                        # Update the mesh
-                        bmesh.update_edit_mesh(obj.data)
-                        # Print the new location of the face after the update
-                        updated_center = selected_faces[0].calc_center_median()
-                        print("Updated Location of Selected Face(s):", obj.matrix_world @ updated_center)
-                    else:
-                        print("No faces selected.")
-                else:
-                    print("Object not found or not in Edit Mode.")
         return {"FINISHED"}
 
     def invoke(self, context, event):
@@ -1601,6 +1407,208 @@ class SNA_OT_Boxcap_7899E(bpy.types.Operator):
         else:
             print("Object not found or not in Edit Mode.")
         bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
+        return {"FINISHED"}
+
+    def invoke(self, context, event):
+        return self.execute(context)
+
+
+class SNA_OT_Cylindercap_0F9D8(bpy.types.Operator):
+    bl_idname = "sna.cylindercap_0f9d8"
+    bl_label = "CylinderCap"
+    bl_description = ""
+    bl_options = {"REGISTER", "UNDO"}
+
+    @classmethod
+    def poll(cls, context):
+        if bpy.app.version >= (3, 0, 0) and True:
+            cls.poll_message_set('')
+        return not False
+
+    def execute(self, context):
+        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='OBJECT')
+        collider['sna_activeobject'] = bpy.context.view_layer.objects.active.name
+        bpy.ops.object.duplicate('INVOKE_DEFAULT', )
+        print(collider['sna_activeobject'])
+        bpy.context.scene.sna_duplicate_to_delete = bpy.context.view_layer.objects.active
+        bpy.ops.object.mode_set('INVOKE_DEFAULT', mode='EDIT')
+        exec("bpy.ops.mesh.select_all(action='INVERT')")
+        bpy.ops.mesh.delete('INVOKE_DEFAULT', type='FACE')
+        exec("bpy.ops.mesh.select_all(action='SELECT')")
+        area_type = 'VIEW_3D'
+        areas  = [area for area in bpy.context.window.screen.areas if area.type == area_type]
+        bpy.context.scene.tool_settings.use_transform_data_origin = True
+        with bpy.context.temp_override(area=areas[0]):
+            bpy.ops.transform.create_orientation(use=True)
+            bpy.ops.object.editmode_toggle()
+            transform_type = bpy.context.scene.transform_orientation_slots[0].type
+            bpy.ops.transform.transform(mode='ALIGN', orient_type='Face', orient_matrix_type=transform_type, mirror=False, use_proportional_edit=False, proportional_edit_falloff='SMOOTH', use_proportional_connected=False, use_proportional_projected=False, snap=False, snap_elements={'INCREMENT'}, use_snap_project=False, snap_target='ACTIVE', use_snap_self=True, use_snap_edit=True, use_snap_nonedit=True, use_snap_selectable=False)
+            bpy.ops.transform.delete_orientation()
+        exec("bpy.data.scenes['Scene'].tool_settings.transform_pivot_point = 'BOUNDING_BOX_CENTER'")
+        bpy.ops.object.origin_set('INVOKE_DEFAULT', type='ORIGIN_GEOMETRY', center='BOUNDS')
+        exec('')
+        exec('from mathutils import Vector')
+        exec('bpy.context.active_object.location += 1.0 * bpy.context.active_object.matrix_world.to_quaternion() @ Vector((0, 0, -100))')
+        euler_angles = bpy.context.view_layer.objects.active.rotation_euler
+        normal_direction = None
+        from mathutils import Euler
+        # Convert Euler angles to a rotation matrix
+        rotation_matrix = euler_angles.to_matrix()
+        # Extract the normal direction from the rotation matrix
+        normal_direction = rotation_matrix.to_3x3() @ mathutils.Vector((0, 0, 1))
+        print(collider['sna_activeobject'], str(normal_direction), str(bpy.context.view_layer.objects.active.location))
+        print(str(normal_direction), str(bpy.context.view_layer.objects.active.location), collider['sna_activeobject'])
+        ray_direction_global_vec = normal_direction
+        ray_origin_global_vec = bpy.context.view_layer.objects.active.location
+        specified_object_name = collider['sna_activeobject']
+        hit_location_global = None
+        RayFail = None
+        #import bpy
+        from mathutils import Euler
+        #ray_origin_global_vec = (1, 1, 1)
+        #ray_direction_global_vec = (1, 1, 1)
+        # Set the starting point for the ray (origin) in global coordinates
+        ray_origin_global = mathutils.Vector(ray_origin_global_vec)
+        # Set the direction of the ray (upwards along the positive Z-axis) in global coordinates
+        ray_direction_global = mathutils.Vector(ray_direction_global_vec)
+        # Set the maximum distance for the ray
+        max_distance = 1000.0  # Adjust as needed
+        # Specify the object name you want to cast rys against
+        #specified_object_name = "Link4"
+        # Ensure the scene is in OBJECT mode
+        bpy.ops.object.mode_set(mode='OBJECT')
+        # Get the current dependency graph
+        depsgraph = bpy.context.evaluated_depsgraph_get()
+        hit_object_name = None
+        hit_location_global = None
+        # Iterate through all visible objects in the scene
+        for obj in bpy.context.visible_objects:
+            # Check if the current object is the specified object
+            if obj.name == specified_object_name:
+                # Convert the ray origin and direction to object local coordinates
+                ray_origin_local = obj.matrix_world.inverted() @ ray_origin_global
+                ray_direction_local = obj.matrix_world.inverted().to_3x3() @ ray_direction_global
+                # Cast the ray for the specified object
+                success, location, normal, index = obj.ray_cast(ray_origin_local, ray_direction_local)
+                if success:
+                    # Convert the hit location back to global coordinates
+                    hit_location_global = obj.matrix_world @ location
+                    print("Ray Hit Location (Global):", hit_location_global)
+                    print("Hit Normal:", normal)
+                    print("Face Index:", index)
+                    hit_object_name = obj.name
+                    break  # Exit the loop after the first hit
+        # Check if any hits occurred
+        if hit_object_name:
+            RayFail = False
+            print("Object Hit:", hit_object_name)
+        #    bpy.ops.mesh.primitive_cube_add(size=1, enter_editmode=False, align='WORLD', location=hit_location_global)
+        else:
+            RayFail = True
+        print(str(RayFail), '')
+        genface['sna_rayfail'] = RayFail
+        exec('')
+        exec('from mathutils import Vector')
+        exec('bpy.context.active_object.location += 1.0 * bpy.context.active_object.matrix_world.to_quaternion() @ Vector((0, 0, 100))')
+        if (tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] >= tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1]):
+            print(str(tuple(bpy.context.view_layer.objects.active.location)))
+            bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0], 0.0))
+            collider['sna_moveoutcollection'] = bpy.context.collection
+            collider['sna_activeobjectcollider'] = bpy.context.view_layer.objects.active
+            bpy.ops.sna.move_to_colllder_collection_1fa60('INVOKE_DEFAULT', )
+            bpy.data.scenes['Scene'].tool_settings.use_transform_data_origin = False
+            bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
+            bpy.data.objects.remove(object=bpy.context.scene.sna_duplicate_to_delete, )
+            bpy.ops.sna.select_cylinder_face_8a190('INVOKE_DEFAULT', )
+            print('1')
+            if genface['sna_rayfail']:
+                print('')
+                prev_context = bpy.context.area.type
+                bpy.context.area.type = 'VIEW_3D'
+                bpy.ops.transform.translate(value=(0.0, 0.0, float(float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[0] * 3.0) * -1.0)), orient_type='LOCAL', orient_matrix_type='LOCAL', constraint_axis=(False, False, True))
+                bpy.context.area.type = prev_context
+            else:
+                print('')
+                target_global_position = hit_location_global
+                object_name = bpy.context.view_layer.objects.active.name
+                import bmesh
+                # Replace 'Cube' with the name of your object
+                #object_name = 'Cylinder.013'
+                # Replace these coordinates with your desired global position
+                #target_global_position = Vector((7.05492, -15.1448, -2.33593))
+                # Get the active object
+                obj = bpy.data.objects.get(object_name)
+                # Check if the object exists and is in Edit Mode
+                if obj and obj.type == 'MESH' and obj.mode == 'EDIT':
+                    # Get the mesh data
+                    mesh = bmesh.from_edit_mesh(obj.data)
+                    # Check if there is at least one selected face
+                    selected_faces = [f for f in mesh.faces if f.select]
+                    if selected_faces:
+                        # Calculate the translation vector to the target position
+                        target_local_position = obj.matrix_world.inverted() @ target_global_position
+                        translation_vector = target_local_position - selected_faces[0].calc_center_median()
+                        # Move the selected face(s) to the target global position
+                        for face in selected_faces:
+                            for vert in face.verts:
+                                vert.co += translation_vector
+                        # Update the mesh
+                        bmesh.update_edit_mesh(obj.data)
+                        # Print the new location of the face after the update
+                        updated_center = selected_faces[0].calc_center_median()
+                        print("Updated Location of Selected Face(s):", obj.matrix_world @ updated_center)
+                    else:
+                        print("No faces selected.")
+                else:
+                    print("Object not found or not in Edit Mode.")
+        else:
+            bpy.ops.mesh.primitive_cylinder_add('INVOKE_DEFAULT', location=bpy.context.view_layer.objects.active.location, rotation=bpy.context.view_layer.objects.active.rotation_euler, scale=(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1], tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1], 0.0))
+            bpy.ops.sna.move_to_colllder_collection_1fa60('INVOKE_DEFAULT', )
+            bpy.data.scenes['Scene'].tool_settings.use_transform_data_origin = False
+            bpy.ops.sna.set_collider_material_33bff('INVOKE_DEFAULT', )
+            bpy.data.objects.remove(object=bpy.context.scene.sna_duplicate_to_delete, )
+            bpy.ops.sna.select_cylinder_face_8a190('INVOKE_DEFAULT', )
+            print('')
+            if genface['sna_rayfail']:
+                print('')
+                prev_context = bpy.context.area.type
+                bpy.context.area.type = 'VIEW_3D'
+                bpy.ops.transform.translate(value=(0.0, 0.0, float(float(tuple(mathutils.Vector(bpy.context.view_layer.objects.active.dimensions) / 2.0)[1] * 3.0) * -1.0)), orient_type='LOCAL', orient_matrix_type='LOCAL', constraint_axis=(False, False, True))
+                bpy.context.area.type = prev_context
+            else:
+                print('')
+                target_global_position = hit_location_global
+                object_name = bpy.context.view_layer.objects.active.name
+                import bmesh
+                # Replace 'Cube' with the name of your object
+                #object_name = 'Cylinder.013'
+                # Replace these coordinates with your desired global position
+                #target_global_position = Vector((7.05492, -15.1448, -2.33593))
+                # Get the active object
+                obj = bpy.data.objects.get(object_name)
+                # Check if the object exists and is in Edit Mode
+                if obj and obj.type == 'MESH' and obj.mode == 'EDIT':
+                    # Get the mesh data
+                    mesh = bmesh.from_edit_mesh(obj.data)
+                    # Check if there is at least one selected face
+                    selected_faces = [f for f in mesh.faces if f.select]
+                    if selected_faces:
+                        # Calculate the translation vector to the target position
+                        target_local_position = obj.matrix_world.inverted() @ target_global_position
+                        translation_vector = target_local_position - selected_faces[0].calc_center_median()
+                        # Move the selected face(s) to the target global position
+                        for face in selected_faces:
+                            for vert in face.verts:
+                                vert.co += translation_vector
+                        # Update the mesh
+                        bmesh.update_edit_mesh(obj.data)
+                        # Print the new location of the face after the update
+                        updated_center = selected_faces[0].calc_center_median()
+                        print("Updated Location of Selected Face(s):", obj.matrix_world @ updated_center)
+                    else:
+                        print("No faces selected.")
+                else:
+                    print("Object not found or not in Edit Mode.")
         return {"FINISHED"}
 
     def invoke(self, context, event):
@@ -1849,9 +1857,9 @@ class SNA_OT_Mesh_85D40(bpy.types.Operator):
         return self.execute(context)
 
 
-class SNA_PT_IMPORT_288A9(bpy.types.Panel):
+class SNA_PT_IMPORT_40744(bpy.types.Panel):
     bl_label = 'Import'
-    bl_idname = 'SNA_PT_IMPORT_288A9'
+    bl_idname = 'SNA_PT_IMPORT_40744'
     bl_space_type = 'VIEW_3D'
     bl_region_type = 'UI'
     bl_context = ''
@@ -2198,13 +2206,13 @@ def register():
     bpy.types.Scene.sna_filepath = bpy.props.StringProperty(name='FilePath', description='', default='C:/', subtype='DIR_PATH', maxlen=0)
     bpy.types.Scene.sna_filepathtype = bpy.props.StringProperty(name='FilePathType', description='', default='', subtype='FILE_PATH', maxlen=0)
     bpy.utils.register_class(SNA_OT_Box_9D9E4)
-    bpy.utils.register_class(SNA_PT_CREATE_0051C)
-    bpy.utils.register_class(SNA_PT_TRANSFORM_99DD4)
+    bpy.utils.register_class(SNA_PT_CREATE_B13DA)
+    bpy.utils.register_class(SNA_PT_TRANSFORM_4041B)
     bpy.utils.register_class(SNA_OT_Scale_Cage_4E08E)
-    bpy.utils.register_class(SNA_PT_EXPORT_FB33D)
+    bpy.utils.register_class(SNA_PT_EXPORT_FF2F9)
     bpy.utils.register_class(SNA_OT_Scalecylradius_E1610)
     bpy.utils.register_class(SNA_OT_Scalesphereradius_Bd79D)
-    bpy.utils.register_class(SNA_PT_CREATE_OPTIONS_51EC3)
+    bpy.utils.register_class(SNA_PT_CREATE_OPTIONS_3ACB7)
     bpy.utils.register_class(SNA_MT_5CC5F)
     bpy.utils.register_class(SNA_MT_4968B)
     bpy.utils.register_class(SNA_OT_Select_Cylinder_Face_8A190)
@@ -2213,18 +2221,18 @@ def register():
     bpy.utils.register_class(SNA_OT_Set_Collider_Material_33Bff)
     bpy.utils.register_class(SNA_OT_Move_To_Colllder_Collection_1Fa60)
     bpy.utils.register_class(SNA_OT_Minbox_0936B)
-    bpy.utils.register_class(SNA_OT_Cylinder_050B8)
     bpy.utils.register_class(SNA_OT_Cylinder_Z_83F4C)
     bpy.utils.register_class(SNA_OT_Cylinder_X_3A040)
     bpy.utils.register_class(SNA_OT_Cylinder_Y_F23B4)
+    bpy.utils.register_class(SNA_OT_Cylinder_050B8)
     bpy.utils.register_class(SNA_OT_Export_Selected_9F890)
     bpy.utils.register_class(SNA_OT_Export_All_451Dc)
     bpy.utils.register_class(SNA_OT_Print_Param_835E7)
-    bpy.utils.register_class(SNA_OT_Cylindercap_0F9D8)
     bpy.utils.register_class(SNA_OT_Boxcap_7899E)
+    bpy.utils.register_class(SNA_OT_Cylindercap_0F9D8)
     bpy.utils.register_class(SNA_OT_Selectflatfaces_0Bf7C)
     bpy.utils.register_class(SNA_OT_Mesh_85D40)
-    bpy.utils.register_class(SNA_PT_IMPORT_288A9)
+    bpy.utils.register_class(SNA_PT_IMPORT_40744)
     bpy.utils.register_class(SNA_OT_Modal_Operator_319F9)
     bpy.utils.register_class(SNA_OT_Import_Stl_90582)
     bpy.utils.register_class(SNA_OT_Import_Fbx_644D9)
@@ -2259,13 +2267,13 @@ def unregister():
     bpy.utils.unregister_class(SNA_GROUP_sna_sog)
     bpy.utils.unregister_class(SNA_GROUP_sna_property_group)
     bpy.utils.unregister_class(SNA_OT_Box_9D9E4)
-    bpy.utils.unregister_class(SNA_PT_CREATE_0051C)
-    bpy.utils.unregister_class(SNA_PT_TRANSFORM_99DD4)
+    bpy.utils.unregister_class(SNA_PT_CREATE_B13DA)
+    bpy.utils.unregister_class(SNA_PT_TRANSFORM_4041B)
     bpy.utils.unregister_class(SNA_OT_Scale_Cage_4E08E)
-    bpy.utils.unregister_class(SNA_PT_EXPORT_FB33D)
+    bpy.utils.unregister_class(SNA_PT_EXPORT_FF2F9)
     bpy.utils.unregister_class(SNA_OT_Scalecylradius_E1610)
     bpy.utils.unregister_class(SNA_OT_Scalesphereradius_Bd79D)
-    bpy.utils.unregister_class(SNA_PT_CREATE_OPTIONS_51EC3)
+    bpy.utils.unregister_class(SNA_PT_CREATE_OPTIONS_3ACB7)
     bpy.utils.unregister_class(SNA_MT_5CC5F)
     bpy.utils.unregister_class(SNA_MT_4968B)
     bpy.utils.unregister_class(SNA_OT_Select_Cylinder_Face_8A190)
@@ -2274,18 +2282,18 @@ def unregister():
     bpy.utils.unregister_class(SNA_OT_Set_Collider_Material_33Bff)
     bpy.utils.unregister_class(SNA_OT_Move_To_Colllder_Collection_1Fa60)
     bpy.utils.unregister_class(SNA_OT_Minbox_0936B)
-    bpy.utils.unregister_class(SNA_OT_Cylinder_050B8)
     bpy.utils.unregister_class(SNA_OT_Cylinder_Z_83F4C)
     bpy.utils.unregister_class(SNA_OT_Cylinder_X_3A040)
     bpy.utils.unregister_class(SNA_OT_Cylinder_Y_F23B4)
+    bpy.utils.unregister_class(SNA_OT_Cylinder_050B8)
     bpy.utils.unregister_class(SNA_OT_Export_Selected_9F890)
     bpy.utils.unregister_class(SNA_OT_Export_All_451Dc)
     bpy.utils.unregister_class(SNA_OT_Print_Param_835E7)
-    bpy.utils.unregister_class(SNA_OT_Cylindercap_0F9D8)
     bpy.utils.unregister_class(SNA_OT_Boxcap_7899E)
+    bpy.utils.unregister_class(SNA_OT_Cylindercap_0F9D8)
     bpy.utils.unregister_class(SNA_OT_Selectflatfaces_0Bf7C)
     bpy.utils.unregister_class(SNA_OT_Mesh_85D40)
-    bpy.utils.unregister_class(SNA_PT_IMPORT_288A9)
+    bpy.utils.unregister_class(SNA_PT_IMPORT_40744)
     bpy.utils.unregister_class(SNA_OT_Modal_Operator_319F9)
     bpy.utils.unregister_class(SNA_OT_Import_Stl_90582)
     bpy.utils.unregister_class(SNA_OT_Import_Fbx_644D9)
