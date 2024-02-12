@@ -75,3 +75,4 @@ This interface contains the tools needed to export your colliders. An SDF file w
 ### 1.0.1 (Feb 12 2024)
  - Fixed error when using the Cylinder tool where it would throw an error if you exited the tool after selecting an axis. (Thanks Yadu!)
  - Fixed issue with the "Generate Face" tool where if the ray cast failed it would lock the user in the tool interface with no way to exit. (Thanks Fernando!)
+ - Fixed the "Generate by Face: Box" tool 
