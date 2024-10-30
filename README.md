@@ -1,3 +1,6 @@
+# NOTE
+# This repository is deprecated. Collidergen's tools have been transfered to a more comprehensive Blender addon for SDF generation. You can find that tool here: https://github.com/cole-bsmr/SDFGen
+
 # ColliderGen
 A robotics focused addon for Blender that creates collision geometry and SDF files.
 
